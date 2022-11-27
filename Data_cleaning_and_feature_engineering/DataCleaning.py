@@ -14,14 +14,14 @@ def main():
     X_test.drop(columns=['duration', 'default'], axis=1, inplace=True)
     print("*Columns dropped*\nNew shape of data:", X_train.shape, X_test.shape)
 
-    # Inputting missing data
+    # Imputation of missing data
 
     X_train['pdays'] = X_train['pdays'] < 999
     X_test['pdays'] = X_test['pdays'] < 999
     # pdays is True when a client was contacted in the previous campaign and False otherwise
 
-    X_train.rename({'pdays':'contacted.in.previous'}, inplace=True)
-    X_test.rename({'pdays':'contacted.in.previous'}, inplace=True)
+    X_train.rename({'pdays':'contacted.in.previous'}, inplace=True, axis=1)
+    X_test.rename({'pdays':'contacted.in.previous'}, inplace=True, axis=1)
 
     # Now we will get rid of 'unknown' values in categorical columns
     # How many records has any 'unknown' value?
@@ -48,9 +48,11 @@ def main():
     train_data = X_train.join(y_train)
     test_data = X_test.join(y_test)
 
-    print("*Checking if the data is valid*")
-    print("Train data:", train_data)
-    print("Test data:", test_data)
+    print("*Checking data*")
+    print("Train data description:\n", train_data.describe(), "\n")
+    print("Train data head:\n", train_data.head(), "\n")
+    print("Test data description:\n", test_data.describe(), "\n")
+    print("Test data head:\n", test_data.head())
 
     print("*Exporting data to csv files*")
     train_data.to_csv('./Data/cleaned-train-bank-data.csv', index=False, sep=';')

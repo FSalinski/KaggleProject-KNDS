@@ -1,4 +1,4 @@
-age;job;marital;education;housing;loan;contact;month;day_of_week;campaign;pdays;previous;poutcome;emp.var.rate;cons.price.idx;cons.conf.idx;euribor3m;nr.employed;y
+age;job;marital;education;housing;loan;contact;month;day_of_week;campaign;contacted.in.previous;previous;poutcome;emp.var.rate;cons.price.idx;cons.conf.idx;euribor3m;nr.employed;y
 26;blue-collar;single;basic.4y;no;no;cellular;jul;wed;17;False;0;nonexistent;1.4;93.918;-42.7;4.963;5228.1;no
 35;technician;married;university.degree;no;no;cellular;aug;thu;1;False;0;nonexistent;1.4;93.444;-36.1;4.963;5228.1;no
 39;admin.;married;high.school;no;no;telephone;may;fri;2;False;0;nonexistent;1.1;93.994;-36.4;4.855;5191.0;no
