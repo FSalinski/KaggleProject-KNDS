@@ -41,11 +41,12 @@ def main():
 
     print("\n*Normalizing distributions*")
 
-    pt = preprocessing.PowerTransformer(method='yeo-johnson')
+    power_transformers = [preprocessing.PowerTransformer(method='yeo-johnson') for column in features_to_scale]
 
-    for column in features_to_scale:
-        train_data[column] = pt.fit_transform(train_data[[column]], pt.fit(train_data[[column]]))
-        test_data[column] = pt.fit_transform(test_data[[column]], pt.fit(train_data[[column]]))
+    for i, column in enumerate(features_to_scale):
+        power_transformers[i].fit(train_data[[column]])
+        train_data[column] = power_transformers[i].transform(train_data[[column]])
+        test_data[column] = power_transformers[i].transform(test_data[[column]])
 
     for column in features_to_scale:
         print(f"\nNew skewness in {column}: {scipy.stats.skew(train_data[column])}")
@@ -57,9 +58,9 @@ def main():
     scalers = [preprocessing.MinMaxScaler() for column in features_to_scale]
 
     for i, column in enumerate(features_to_scale):
-        fit = scalers[i].fit(train_data[[column]])
-        train_data[column] = scalers[i].fit_transform(train_data[[column]], fit)
-        test_data[column] = scalers[i].fit_transform(test_data[[column]], fit)
+        scalers[i].fit(train_data[[column]])
+        train_data[column] = scalers[i].transform(train_data[[column]])
+        test_data[column] = scalers[i].transform(test_data[[column]])
     
     print("\n*Checking data*")
     print("Train data description:\n", train_data.describe(), "\n")
