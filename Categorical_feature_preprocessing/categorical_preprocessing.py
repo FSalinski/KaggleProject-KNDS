@@ -37,6 +37,54 @@ def main():
 
     print("\nData description:\n", train_data.describe())
 
+    # Sine cosine encoding cyclical features
+
+    print("\nUnique values in 'month':", train_data['month'].unique())
+    print("Unique values in 'day_of_week':", train_data['day_of_week'].unique())
+
+    print("\n*Sine/Cosine encoding*")
+
+    for data in [train_data, test_data]:
+        data['month'].replace({'mar' : 3, 
+                               'apr' : 4,
+                               'may' : 5,
+                               'jun' : 6,
+                               'jul' : 7,
+                               'aug' : 8,
+                               'sep' : 9,
+                               'oct' : 10,
+                               'nov' : 11,
+                               'dec' : 12}, inplace=True)
+
+        data['day_of_week'].replace({'mon' : 1,
+                                     'tue' : 2,
+                                     'wed' : 3,
+                                     'thu' : 4,
+                                     'fri' : 5}, inplace=True)
+
+        data['month_sin'] = np.sin(2 * np.pi * data['month']/12.0)
+        data['month_cos'] = np.cos(2 * np.pi * data['month']/12.0)
+        data['day_sin'] = np.sin(2 * np.pi * data['day_of_week']/5.0)
+        data['day_cos'] = np.cos(2 * np.pi * data['day_of_week']/5.0)
+
+        data.drop(['month', 'day_of_week'], axis=1, inplace=True)
+
+    print("\nDescription of new sin/cos features:\n", train_data[['month_sin', 'month_cos', 'day_sin', 'day_cos']].describe())
+
+    # Replacing True/False with 1/0 in 'contacted_in_previous'
+
+    train_data['contacted.in.previous'] = train_data['contacted.in.previous'].apply(lambda x: 1. if x == True else 0.)
+    test_data['contacted.in.previous'] = test_data['contacted.in.previous'].apply(lambda x: 1. if x == True else 0.)
+    
+    train_data = train_data.drop('y', axis=1).join(train_data['y'])
+    test_data = test_data.drop('y', axis=1).join(test_data['y'])
+
+    print("\n*Checking data*")
+    print("Train data description:\n", train_data.describe(), "\n")
+    print("Train data head:\n", train_data.head(), "\n")
+    print("Test data description:\n", test_data.describe(), "\n")
+    print("Test data head:\n", test_data.head())
+
 
 if __name__ == '__main__':
     main()
