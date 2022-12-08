@@ -44,7 +44,8 @@ def main():
 
     print("\n*Sine/Cosine encoding*")
 
-    for data in [train_data, test_data]:
+    for data in [train_data, test_data]: 
+
         data['month'].replace({'mar' : 3, 
                                'apr' : 4,
                                'may' : 5,
@@ -62,16 +63,16 @@ def main():
                                      'thu' : 4,
                                      'fri' : 5}, inplace=True)
 
-        data['month_sin'] = np.sin(2 * np.pi * data['month']/12.0)
-        data['month_cos'] = np.cos(2 * np.pi * data['month']/12.0)
-        data['day_sin'] = np.sin(2 * np.pi * data['day_of_week']/5.0)
-        data['day_cos'] = np.cos(2 * np.pi * data['day_of_week']/5.0)
+        data['month_sin'] = np.sin(2 * np.pi * data['month'] / 12.0)
+        data['month_cos'] = np.cos(2 * np.pi * data['month'] / 12.0)
+        data['day_sin'] = np.sin(2 * np.pi * data['day_of_week'] / 5.0)
+        data['day_cos'] = np.cos(2 * np.pi * data['day_of_week'] / 5.0)
 
         data.drop(['month', 'day_of_week'], axis=1, inplace=True)
 
     print("\nDescription of new sin/cos features:\n", train_data[['month_sin', 'month_cos', 'day_sin', 'day_cos']].describe())
 
-    # Replacing True/False with 1/0 in 'contacted_in_previous'
+    # Replacing True/False with 1/0 in 'contacted.in.previous'
 
     train_data['contacted.in.previous'] = train_data['contacted.in.previous'].apply(lambda x: 1. if x == True else 0.)
     test_data['contacted.in.previous'] = test_data['contacted.in.previous'].apply(lambda x: 1. if x == True else 0.)
@@ -85,6 +86,10 @@ def main():
     print("Test data description:\n", test_data.describe(), "\n")
     print("Test data head:\n", test_data.head())
 
+    print("*Exporting data to csv files*")
+    train_data.to_csv('./Data/preprocessed2-train-bank-data.csv', index=False, sep=';')
+    test_data.to_csv('./Data/preprocessed2-test-bank-data.csv', index=False, sep=';')
+    
 
 if __name__ == '__main__':
     main()
