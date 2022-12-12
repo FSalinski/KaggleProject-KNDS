@@ -76,6 +76,11 @@ def main():
 
     train_data['contacted.in.previous'] = train_data['contacted.in.previous'].apply(lambda x: 1. if x == True else 0.)
     test_data['contacted.in.previous'] = test_data['contacted.in.previous'].apply(lambda x: 1. if x == True else 0.)
+
+    # Replacing yes/no with 1/0 in 'y'
+
+    train_data['y'] = train_data['y'].apply(lambda x: 1. if x == 'yes' else 0.)
+    test_data['y'] = test_data['y'].apply(lambda x: 1. if x == 'yes'else 0.)
     
     train_data = train_data.drop('y', axis=1).join(train_data['y'])
     test_data = test_data.drop('y', axis=1).join(test_data['y'])
