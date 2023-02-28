@@ -81,11 +81,11 @@ To deal with categorical columns I used one hot encoding. For __month__ and __da
 
 First step was the chose of models. I decided to try:
 
-- Logistic Regression (used as baseline)
-- Decision Tree Classifier
-- Random Forest Classifier
-- Multi-layer Perceptron Classifier
-- Support Vector Classification model
+- Logistic Regression (used as baseline) (LOGR)
+- Decision Tree Classifier (DTC)
+- Random Forest Classifier (RFC)
+- Multi-layer Perceptron Classifier (MLPC)
+- Support Vector Classification model (SVC)
 
 Then I started hyperparameter tuning. Results of cross-validation (average metrics of models on seen and unseen data):
 
